@@ -14,8 +14,14 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String reverse(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		// Initial logic
+		byte[] byteArray = string.getBytes();
+		int byteLength = byteArray.length;
+		byte[] byteReverse = new byte[byteLength];
+		for (int i = 0; i < byteLength; i++) {
+			byteReverse[byteLength - i - 1] = byteArray[i];
+		}
+		return (new String(byteReverse));
 	}
 
 	/**
