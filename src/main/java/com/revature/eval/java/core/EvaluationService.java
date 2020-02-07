@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,14 +35,45 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		
+		// String[] arr = phrase.split(" ");
+		// int length = arr.length;
+		// char[] charArr = new char[length];
+		// for (int i = 0; i < length; i++) {
+
+		// 	if(arr[i].charAt(0) == '-') {
+		// 		charArr[i] = ' ';
+		// 	} else {
+		// 		charArr[i] = Character.toUpperCase(arr[i].charAt(0));
+		// 	}
+		// }
+
+		// return (new String(charArr));
+
 		String[] arr = phrase.split(" ");
 		int length = arr.length;
-		char[] charArr = new char[length];
+		ArrayList<Character> charArr = new ArrayList<>();
+		// char[] finalArr = new char[length];
 		for (int i = 0; i < length; i++) {
-			charArr[i] = arr[i].charAt(0);
+
+			// charArr.add(Character.toUpperCase(arr[i].charAt(0)));
+			if (arr[i].contains("-")) {
+				String[] x = arr[i].split("-");
+				for (int a = 0; a < x.length; a++) {
+					System.out.println(x[a]);
+					charArr.add(Character.toUpperCase(x[a].charAt(0)));
+				}
+			} else {
+				charArr.add(Character.toUpperCase(arr[i].charAt(0)));
+			}
 		}
 
-		return (new String(charArr));
+		char[] finalArr = new char[charArr.size()];
+
+		for (int i = 0; i < charArr.size(); i++) {
+			finalArr[i] = charArr.get(i);
+		}
+
+		return (new String(finalArr));
 		
 	}
 
