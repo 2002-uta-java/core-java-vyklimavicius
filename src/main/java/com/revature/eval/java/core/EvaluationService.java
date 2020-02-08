@@ -35,20 +35,6 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		
-		// String[] arr = phrase.split(" ");
-		// int length = arr.length;
-		// char[] charArr = new char[length];
-		// for (int i = 0; i < length; i++) {
-
-		// 	if(arr[i].charAt(0) == '-') {
-		// 		charArr[i] = ' ';
-		// 	} else {
-		// 		charArr[i] = Character.toUpperCase(arr[i].charAt(0));
-		// 	}
-		// }
-
-		// return (new String(charArr));
-
 		String[] arr = phrase.split(" ");
 		int length = arr.length;
 		ArrayList<Character> charArr = new ArrayList<>();
