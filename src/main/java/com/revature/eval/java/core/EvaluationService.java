@@ -38,10 +38,9 @@ public class EvaluationService {
 		String[] arr = phrase.split(" ");
 		int length = arr.length;
 		ArrayList<Character> charArr = new ArrayList<>();
-		// char[] finalArr = new char[length];
+
 		for (int i = 0; i < length; i++) {
 
-			// charArr.add(Character.toUpperCase(arr[i].charAt(0)));
 			if (arr[i].contains("-")) {
 				String[] x = arr[i].split("-");
 				for (int a = 0; a < x.length; a++) {
@@ -113,18 +112,21 @@ public class EvaluationService {
 		}
 
 		public boolean isEquilateral() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			// An equilateral triangle has all three sides the same length
+			boolean result = (this.sideOne == this.sideTwo) && (this.sideTwo == this.sideThree) ? true : false;
+			return result;
 		}
 
 		public boolean isIsosceles() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			// An isosceles triangle has at least two sides the same length.
+			boolean result = (this.sideOne == this.sideTwo) || (this.sideTwo == this.sideThree) || (this.sideThree == this.sideOne) ? true : false;
+			return result;
 		}
 
 		public boolean isScalene() {
-			// TODO Write an implementation for this method declaration
-			return false;
+			// A scalene triangle has all sides of different lengths.
+			boolean result = (this.sideOne != this.sideTwo) || (this.sideTwo != this.sideThree) || (this.sideThree != this.sideOne) ? true : false;
+			return result;
 		}
 
 	}
@@ -145,8 +147,60 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int getScrabbleScore(String string) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+		
+		int score = 0;
+		String lowerCase = string.toLowerCase();
+		char[] splitWord = lowerCase.toCharArray();
+
+		for (char p : splitWord) {
+			switch (p) {
+			case 'a':
+			case 'e':
+			case 'i':
+			case 'o':
+			case 'u':
+			case 'l':
+			case 'n':
+			case 'r':
+			case 's':
+			case 't':
+				score += 1;
+				break;
+			case 'd':
+			case 'g':
+				score += 2;
+				break;
+			case 'b':
+			case 'c':
+			case 'm':
+			case 'p':
+				score += 3;
+				break;
+			case 'f':
+			case 'h':
+			case 'v':
+			case 'w':
+			case 'y':
+				score += 4;
+				break;
+			case 'k':
+				score += 5;
+				break;
+			case 'j':
+			case 'x':
+				score += 8;
+				break;
+			case 'q':
+			case 'z':
+				score += 10;
+				break;
+			default:
+				score += 0;
+				break;
+			}
+		}
+
+		return score;
 	}
 
 	/**
