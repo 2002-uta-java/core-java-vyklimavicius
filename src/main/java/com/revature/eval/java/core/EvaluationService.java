@@ -2,8 +2,11 @@ package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EvaluationService {
 
@@ -235,8 +238,36 @@ public class EvaluationService {
 	 * NANP-countries, only 1 is considered a valid country code.
 	 */
 	public String cleanPhoneNumber(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		// To take out +, (), spaces, punctuaction and -
+		/**
+		 * String literals or regex
+		 */
+		String nanpNumber;
+		String finalNumber;
+		// char[] phoneNumber = string.toCharArray();
+
+		nanpNumber = string.replace("(", " ").replace(")", " ").replace("+", " ").replace("-", " ").replace(".", " ");
+		finalNumber = nanpNumber.replaceAll("\\s", "");
+		char[] size = finalNumber.toCharArray();
+		int length = size.length;
+		if (length > 11) {
+			throw new IllegalArgumentException();
+		}
+
+		Pattern pattern = Pattern.compile("[^A-Za-z0-9]");
+		Matcher matcher = pattern.matcher(finalNumber);
+
+		if (matcher.find()) {
+			throw new IllegalArgumentException();
+		}
+
+		for (int i = 0; i < length; i++) {
+			if (Character.isLetter(size[i])) {
+				throw new IllegalArgumentException();
+			}
+		}
+
+		return finalNumber;
 	}
 
 	/**
@@ -249,8 +280,45 @@ public class EvaluationService {
 	 * @return
 	 */
 	public Map<String, Integer> wordCount(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		
+		Map<String, Integer> result = new HashMap<String, Integer>();
+
+		if (string.contains("\n")) {
+			string = string.replace("\n", "");
+		}
+
+		if (string.contains(",")) {
+			String[] splitComma = string.split(",");
+
+			for (String word : splitComma) {
+
+				Integer counter = result.get(word);
+				if (counter == null) {
+					counter = 0;
+				}
+				result.put(word, counter += 1);
+
+			}
+
+		} else {
+
+			String[] split = string.split(" ");
+
+			for (String word : split) {
+
+				Integer counter = result.get(word);
+				if (counter == null) {
+					counter = 0;
+				}
+				result.put(word, counter += 1);
+
+			}
+
+		}
+
+		return result;
+
+		
 	}
 
 	/**
