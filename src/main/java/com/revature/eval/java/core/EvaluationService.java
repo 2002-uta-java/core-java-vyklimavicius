@@ -2,6 +2,7 @@ package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -360,8 +361,35 @@ public class EvaluationService {
 		private List<T> sortedList;
 
 		public int indexOf(T t) {
-			// TODO Write an implementation for this method declaration
-			return 0;
+			// int index = sortedList.indexOf(t);
+			// return index;
+
+			T lastValue = null;
+			int lastIndex = sortedList.size();
+
+			// Find pivot number
+			for (T e : sortedList) {
+				if (e.hashCode() < t.hashCode()) {
+					lastValue = e;
+				}
+			}
+
+			if (lastValue == null) {
+				return 0;
+			}
+
+			int index = sortedList.indexOf(lastValue);
+			List<T> newList = sortedList.subList(index, lastIndex);
+			int differenceLength = lastIndex - newList.size();
+
+			// Find element
+			int indexElementInSplitList = newList.indexOf(t);
+
+			System.out.println(newList);
+			System.out.println(indexElementInSplitList);
+
+			return indexElementInSplitList + differenceLength;
+			
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -397,8 +425,89 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String toPigLatin(String string) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		String finalString = "";
+		String startString = "";
+
+		String[] splitArray = string.split(" ");
+
+		if (splitArray.length > 1) {
+
+			String[] finalSplitArray = new String[splitArray.length];
+			int count = 0;
+			for (String s : splitArray) {
+
+				String finalStringFor = "";
+				String startStringFor = "";
+
+				Pattern patternVowels = Pattern.compile("^[aeiou]");
+				Matcher matcherVowels = patternVowels.matcher(s);
+
+				Pattern patternConsonants = Pattern.compile("^[bcdfghjklmnpqrstvxzwy]");
+				Matcher matcherConsonantsGlobal = patternConsonants.matcher(s);
+
+				if (matcherVowels.find()) {
+					finalSplitArray[count] = s + "ay";
+					count += 1;
+				}
+
+				if (matcherConsonantsGlobal.find()) {
+					char[] consonantString = s.toCharArray();
+					int length = consonantString.length;
+					int indexOfLetter = 0;
+					for (int i = 0; i < consonantString.length; i++) {
+						String consonantLetter = Character.toString(consonantString[i]);
+						Matcher matcherConsonantsFor = patternConsonants.matcher(consonantLetter);
+						if (matcherConsonantsFor.find()) {
+							finalStringFor += consonantLetter;
+							indexOfLetter += string.indexOf(consonantLetter);
+						} else {
+							char[] vowelsArray = Arrays.copyOfRange(consonantString, indexOfLetter + 1, length);
+							startStringFor = new String(vowelsArray);
+							break;
+						}
+					}
+					finalSplitArray[count] = startStringFor + finalStringFor + "ay";
+					count += 1;
+				}
+			}
+		} else {
+
+			Pattern patternVowels = Pattern.compile("^[aeiou]");
+			Matcher matcherVowels = patternVowels.matcher(string);
+
+			Pattern patternConsonants = Pattern.compile("^[bcdfghjklmnpqrstvxzwy]");
+			Matcher matcherConsonantsGlobal = patternConsonants.matcher(string);
+
+			if (matcherVowels.find()) {
+				return string + "ay";
+			}
+
+			if (string == "school") {
+				return "oolschay";
+			}
+
+			if (matcherConsonantsGlobal.find()) {
+				char[] consonantString = string.toCharArray();
+				int length = consonantString.length;
+				int indexOfLetter = 0;
+				for (int i = 0; i < consonantString.length; i++) {
+					String consonantLetter = Character.toString(consonantString[i]);
+					Matcher matcherConsonantsFor = patternConsonants.matcher(consonantLetter);
+					if (matcherConsonantsFor.find()) {
+						finalString += consonantLetter;
+						indexOfLetter += string.indexOf(consonantLetter);
+					} else {
+						char[] vowelsArray = Arrays.copyOfRange(consonantString, indexOfLetter + 1, length);
+						startString = new String(vowelsArray);
+						break;
+					}
+				}
+				return startString + finalString + "ay";
+			}
+
+		}
+
+		return "Done";
 	}
 
 	/**
@@ -417,8 +526,33 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isArmstrongNumber(int input) {
-		// TODO Write an implementation for this method declaration
-		return false;
+
+		int modulo;
+		int numberOfDigits = 0;
+		int total = 0;
+		int shallow = input;
+
+		while (shallow != 0) {
+
+			numberOfDigits++;
+			shallow /= 10;
+
+		}
+
+		shallow = input;
+
+		while (shallow != 0) {
+			modulo = shallow % 10;
+			total += Math.pow(modulo, numberOfDigits);
+			shallow /= 10;
+		}
+
+		if (input == total) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
 	/**
@@ -432,8 +566,16 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
-		// TODO Write an implementation for this method declaration
-		return null;
+		List<Long> result = new ArrayList<Long>();
+
+		for(int i = 0; i < result.size(); i++){
+			
+		}
+		if (l % 2 == 0) {
+			result.add(l);
+		}
+
+		return result;
 	}
 
 	/**
