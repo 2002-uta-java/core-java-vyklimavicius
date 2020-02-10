@@ -744,23 +744,41 @@ public class EvaluationService {
 		public static String encode(String string) {
 			int a = 97;
 			int z = 122;
-
+			int counter = 0;
+			StringBuilder sb = new StringBuilder();
+			String finalString = "";
 			// Make the string lowerCase
 			String lowerCase = string.toLowerCase();
 
 			// Split string
 			char[] splitString = lowerCase.toCharArray();
-			// Create encoded character array
-			char[] encodedArray = new char[splitString.length];
+
+			// List of chars
+			ArrayList<Character> encodedArrayList = new ArrayList<>();
 
 			for (int i = 0; i < splitString.length; i++) {
-				int splitStringInt = splitString[i];
-				int encodedChar = (a + z) - splitStringInt;
-				char finalEncoding = (char) encodedChar;
-				encodedArray[i] = finalEncoding;
+
+				if (counter == 5) {
+					encodedArrayList.add(' ');
+					counter = 0;
+					i--;
+				} else {
+
+					int splitStringInt = splitString[i];
+					int encodedChar = (a + z) - splitStringInt;
+					char finalEncoding = (char) encodedChar;
+					encodedArrayList.add(finalEncoding);
+					counter++;
+
+				}
 			}
 
-			return new String(encodedArray);
+			for (Character c : encodedArrayList) {
+				sb.append(c);
+			}
+
+			finalString = sb.toString();
+			return finalString;
 		}
 
 		/**
@@ -770,8 +788,25 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			int a = 97;
+			int z = 122;
+
+			// Make the string lowerCase
+			String lowerCase = string.toLowerCase();
+
+			// Split string
+			char[] splitString = lowerCase.toCharArray();
+			// Create encoded character array
+			char[] decodedArray = new char[splitString.length];
+
+			for (int i = 0; i < splitString.length; i++) {
+				int splitStringInt = splitString[i];
+				int encodedChar = (a + z) - splitStringInt;
+				char finalDecoding = (char) encodedChar;
+				decodedArray[i] = finalDecoding;
+			}
+
+			return new String(decodedArray);
 		}
 	}
 
