@@ -566,13 +566,23 @@ public class EvaluationService {
 	 * @return
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
+		
+
 		List<Long> result = new ArrayList<Long>();
 
-		for(int i = 0; i < result.size(); i++){
-			
+		while (l % 2 == 0) {
+
+			result.add(2L);
+			l /= 2;
 		}
-		if (l % 2 == 0) {
-			result.add(l);
+
+		for (int i = 3; i <= Math.sqrt(l); i++) {
+
+			if (l % i == 0) {
+				Long primeNumber = new Long(i);
+				result.add(primeNumber);
+			}
+
 		}
 
 		return result;
@@ -613,8 +623,47 @@ public class EvaluationService {
 		}
 
 		public String rotate(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+
+			StringBuffer result = new StringBuffer();
+
+			for (int i = 0; i < string.length(); i++) {
+
+				if (Character.isUpperCase(string.charAt(i))) {
+					char deCrypted = (char) (((int) string.charAt(i) + this.key - 65) % 26 + 65);
+					result.append(deCrypted);
+				} else if (string.charAt(i) == ' ') {
+					result.append(' ');
+				} else if (string.charAt(i) == '.') {
+					result.append('.');
+				} else if (string.charAt(i) == '1' || string.charAt(i) == '2' || string.charAt(i) == '3' || string.charAt(i) == '\'' || string.charAt(i) == ',' || string.charAt(i) == '!') {
+					switch (string.charAt(i)) {
+					case '1':
+						result.append('1');
+						break;
+					case '2':
+						result.append('2');
+						break;
+					case '3':
+						result.append('3');
+						break;
+					case '\'':
+						result.append('\'');
+						break;
+					case ',':
+						result.append(',');
+						break;
+					case '!':
+						result.append('!');
+						break;
+					}
+				} else {
+					char deCrypted = (char) (((int) string.charAt(i) + this.key - 97) % 26 + 97);
+					result.append(deCrypted);
+				}
+
+			}
+
+			return result.toString();
 		}
 
 	}
