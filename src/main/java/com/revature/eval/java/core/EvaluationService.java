@@ -681,8 +681,32 @@ public class EvaluationService {
 	 * @return
 	 */
 	public int calculateNthPrime(int i) {
-		// TODO Write an implementation for this method declaration
-		return 0;
+
+		// Exception handling
+		if (i < 1) {
+			throw new IllegalArgumentException();
+		}
+
+		int prime = 2;
+
+		while (i > 0) {
+			int temp = 2;
+			boolean isPrime = true;
+			while (temp <= prime / 2) {
+				if (prime % temp == 0) {
+					isPrime = false;
+					break;
+				}
+				temp++;
+			}
+			if (isPrime) {
+				i--;
+			}
+			if (i > 0) {
+				prime++;
+			}
+		}
+		return prime;
 	}
 
 	/**
@@ -718,8 +742,25 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String encode(String string) {
-			// TODO Write an implementation for this method declaration
-			return null;
+			int a = 97;
+			int z = 122;
+
+			// Make the string lowerCase
+			String lowerCase = string.toLowerCase();
+
+			// Split string
+			char[] splitString = lowerCase.toCharArray();
+			// Create encoded character array
+			char[] encodedArray = new char[splitString.length];
+
+			for (int i = 0; i < splitString.length; i++) {
+				int splitStringInt = splitString[i];
+				int encodedChar = (a + z) - splitStringInt;
+				char finalEncoding = (char) encodedChar;
+				encodedArray[i] = finalEncoding;
+			}
+
+			return new String(encodedArray);
 		}
 
 		/**
