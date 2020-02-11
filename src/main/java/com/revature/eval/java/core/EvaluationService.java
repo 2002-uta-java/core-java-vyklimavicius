@@ -576,14 +576,20 @@ public class EvaluationService {
 			l /= 2;
 		}
 
-		for (int i = 3; i <= Math.sqrt(l); i++) {
+		for (Long i = 3L; i <= Math.sqrt(l); i+=2) {
 
-			if (l % i == 0) {
-				Long primeNumber = new Long(i);
-				result.add(primeNumber);
+			while(l % i ==0){
+				result.add(i);
+				l /= i;
 			}
 
 		}
+
+			if (l > 2) {
+				result.add(l);
+			}
+
+		
 
 		return result;
 	}
@@ -745,40 +751,39 @@ public class EvaluationService {
 			int a = 97;
 			int z = 122;
 			int counter = 0;
-			StringBuilder sb = new StringBuilder();
-			String finalString = "";
 			// Make the string lowerCase
 			String lowerCase = string.toLowerCase();
 
 			// Split string
 			char[] splitString = lowerCase.toCharArray();
 
-			// List of chars
-			ArrayList<Character> encodedArrayList = new ArrayList<>();
+			// String result
+			String encrypted = "";
 
 			for (int i = 0; i < splitString.length; i++) {
 
+				if (splitString[i] == 44 || splitString[i] == 46) {
+					continue;
+				}
 				if (counter == 5) {
-					encodedArrayList.add(' ');
+					encrypted += " ";
 					counter = 0;
-					i--;
-				} else {
-
+				}
+				if (Character.isDigit(splitString[i])) {
+					encrypted += splitString[i];
+					counter++;
+				}
+				if (splitString[i] >= a && splitString[i] <= z) {
 					int splitStringInt = splitString[i];
 					int encodedChar = (a + z) - splitStringInt;
 					char finalEncoding = (char) encodedChar;
-					encodedArrayList.add(finalEncoding);
+					encrypted += finalEncoding;
 					counter++;
-
 				}
+
 			}
 
-			for (Character c : encodedArrayList) {
-				sb.append(c);
-			}
-
-			finalString = sb.toString();
-			return finalString;
+			return encrypted;
 		}
 
 		/**
@@ -788,25 +793,35 @@ public class EvaluationService {
 		 * @return
 		 */
 		public static String decode(String string) {
+
+
 			int a = 97;
 			int z = 122;
-
+			// int counter = 0;
 			// Make the string lowerCase
 			String lowerCase = string.toLowerCase();
 
 			// Split string
 			char[] splitString = lowerCase.toCharArray();
-			// Create encoded character array
-			char[] decodedArray = new char[splitString.length];
+
+			// String result
+			String Decrypted = "";
 
 			for (int i = 0; i < splitString.length; i++) {
-				int splitStringInt = splitString[i];
-				int encodedChar = (a + z) - splitStringInt;
-				char finalDecoding = (char) encodedChar;
-				decodedArray[i] = finalDecoding;
+
+				if (Character.isDigit(splitString[i])) {
+					Decrypted += splitString[i];
+				}
+				if (splitString[i] >= a && splitString[i] <= z) {
+					int splitStringInt = splitString[i];
+					int encodedChar = (a + z) - splitStringInt;
+					char finalEncoding = (char) encodedChar;
+					Decrypted += finalEncoding;
+				}
+
 			}
 
-			return new String(decodedArray);
+			return Decrypted;
 		}
 	}
 
@@ -833,8 +848,27 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isValidIsbn(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+		
+		String cleanString = string.replace("-", "");
+		char[] numbers = cleanString.toCharArray();
+		int sum = 0;
+		int counter = 10;
+
+		if (numbers.length > 10) {
+			return false;
+		}
+
+		for (int i = 0; i < numbers.length; i++) {
+			sum += Character.getNumericValue(numbers[i]) * counter;
+			counter--;
+
+			if (numbers[i] == 'X') {
+				sum += 10;
+				counter--;
+			}
+		}
+
+		return (sum % 11 == 0);
 	}
 
 	/**
@@ -851,8 +885,33 @@ public class EvaluationService {
 	 * @return
 	 */
 	public boolean isPangram(String string) {
-		// TODO Write an implementation for this method declaration
-		return false;
+	
+	boolean[] check = new boolean[26]; 
+	int counter = 0;
+  
+    char[] charString = string.toCharArray();
+  
+    for (int i= 0; i <string.length(); i++) { 
+
+        if('a' <= charString[i] && charString[i] <= 'z') {
+
+			counter = charString[i] - 'a'; 
+		}
+
+        check[counter] = true; 
+    } 
+  
+    for (int i= 0; i <= 25; i++) {
+
+        if (check[i] == false){
+
+            return false; 
+		}
+
+	}
+  
+	return true; 
+	
 	}
 
 	/**
